@@ -142,6 +142,13 @@ getDeviceList(PyObject *self, PyObject *args)
 	PyObject* pyList = NULL; 
 	
 	HRESULT hr = CoInitializeEx(NULL, COINIT_MULTITHREADED);
+
+	//backup; run it without multithreading.
+	if (!SUCCEEDED(hr))
+	{				
+		hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
+	}
+
 	if (SUCCEEDED(hr))
 	{
 		IEnumMoniker *pEnum;
@@ -153,6 +160,8 @@ getDeviceList(PyObject *self, PyObject *args)
 			pEnum->Release();
 		}
 		CoUninitialize();
+	} else {
+		PyErr_SetString(PyExc_TypeError, "Could not call CoInitializeEx");		
 	}
 
     return pyList;

@@ -1,10 +1,14 @@
 # List Capture Devices for Python OpenCV on Windows
 **OpenCV** does not have an API for listing capture devices. The sample shows how to create a Python extension to invoke DirectShow C++ APIs for enumerating capture devices.
 
+I modified a version from [here](https://github.com/yushulx/python-capture-device-list) add serial number for each device.
+
 ## Environment
 * [Microsoft Windows SDK][0]
-* Python 2.7.9 / Python 3.6.5
-* OpenCV 3.3.0
+* Python 3.8
+* OpenCV 3.4.0
+
+NOTE: other versions may also be ok, but I didn't test them.
 
 ## How to Run 
 1. Configure Visual Studio environment:
@@ -24,9 +28,9 @@
     ```python
     from distutils.core import setup, Extension
 
-    module_device = Extension('device',
-                            sources = ['device.cpp'], 
-                            library_dirs=['G:\Program Files\Microsoft SDKs\Windows\v6.1\Lib']
+    module_device = Extension('cv_device',
+                            sources = ['cv_device.cpp'], 
+                            library_dirs=['G:\Program Files\Microsoft SDKs\Windows\v6.1\Lib']   # <== Here, if u don't add it to path, change here.
                         )
 
     setup (name = 'WindowsDevices',
@@ -37,29 +41,17 @@
 
 3. Build the Python extension
 
-    Python 2
+    Python
 
     ```
     python setup.py build install
     ```
 
-    Python 3
-
-    ```
-    python3 setup.py build install
-    ```
-
 4. Run the app and select a capture device:
 
-    Python 2
-
+    Python 
     ```python
     python test.py
-    ```
-
-    Python 3
-    ```python
-    python3 test.py
     ```
     ![camera list in Python](screenshot/python-list-device.PNG)
 

@@ -19,7 +19,7 @@ def select_camera(last_index):
 
 
 def open_camera(index):
-    cap = cv2.VideoCapture(index)
+    cap = cv2.VideoCapture(index, cv2.CAP_DSHOW)        # Here, In windows, use CAP_DSHOW to force the id as direct_show
     return cap
 
 def main():
